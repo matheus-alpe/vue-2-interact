@@ -28,7 +28,7 @@ export default {
         "font-size": "1em",
         padding: "5px",
         color: "#000",
-        "max-width": "fit-content",
+        "width": "fit-content",
         position: "absolute",
       },
     };
@@ -42,10 +42,26 @@ export default {
             this.position.x += event.dx;
             this.position.y += event.dy;
 
-            event.target.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
+            Object.assign(event.target.style, {
+              transform: `translate(${this.position.x}px, ${this.position.y}px)`,
+            });
           },
         },
       })
+
+      .resizable({
+        edges: { top: true, left: true, bottom: true, right: true },
+        listeners: {
+          move: function (event) {
+
+            Object.assign(event.target.style, {
+              width: `${event.rect.width}px`,
+              height: `${event.rect.height}px`,
+            });
+
+          },
+        },
+      });
   },
 };
 </script>
