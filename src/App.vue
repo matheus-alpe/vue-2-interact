@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <TextLabel msg="Welcome to Your Vue.js App"/>
-  </div>
+  <WhiteBoard>
+    <DraggableText msg="teste 1" id="1"/>
+    <DraggableText msg="palavra 2" id="2"/>
+  </WhiteBoard>
 </template>
 
 <script>
-import TextLabel from './components/TextLabel.vue'
+import WhiteBoard from './components/WhiteBoard.vue'
+import DraggableText from './components/DraggableText.vue'
 
 export default {
   name: 'App',
   components: {
-    TextLabel
+    DraggableText,
+    WhiteBoard
   }
 }
 </script>
