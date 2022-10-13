@@ -1,7 +1,8 @@
 <template>
   <WhiteBoard>
     <DraggableText msg="teste 1" id="1"/>
-    <DraggableText msg="palavra 2" id="2"/>
+    <DraggableText msg="Insira algum texto" id="2"/>
+    <DraggableText :msg="'Hash de validação: {{ hash }}'" id="3"/>
   </WhiteBoard>
 </template>
 

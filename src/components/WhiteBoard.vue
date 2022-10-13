@@ -8,9 +8,7 @@
 </template>
 
 <script>
-const BOARD_WIDTH = "1408px"
 // const BOARD_WIDTH = "3508px"
-const BOARD_HEIGHT = "950px"
 // const BOARD_HEIGHT = "2450px"
 
 export default {
@@ -21,19 +19,19 @@ export default {
       style: {
         "font-size": "76px",
         background: "#fff",
-        width: BOARD_WIDTH,
-        "max-width": BOARD_WIDTH,
-        height: BOARD_HEIGHT,
-        "max-height": BOARD_HEIGHT,
+        width: "46.1578947368421em",
+        "max-width": "46.1578947368421em",
+        height: "32.23684210526316em",
+        "max-height": "32.23684210526316em",
         overflow: "hidden",
         position: "relative",
       },
 
       imgStyle: {
-        width: BOARD_WIDTH,
-        "max-width": BOARD_WIDTH,
-        height: BOARD_HEIGHT,
-        "max-height": BOARD_HEIGHT,
+        width: "46.1578947368421em",
+        "max-width": "46.1578947368421em",
+        height: "32.23684210526316em",
+        "max-height": "32.23684210526316em",
         display: "block",
         position: 'absolute',
         top: 0,
