@@ -1,6 +1,5 @@
 <template>
-  <p :ref="item.id" :class="item.id" contenteditable="true" :style="style">
-    {{ item.message }}
+  <p :ref="item.id" :class="item.id" :contenteditable="!isPreview" :style="style" @blur="handleBlur" v-html="item.message">
   </p>
 </template>
 
@@ -54,6 +53,11 @@ export default {
         transform: `translate(${position.x}em, ${position.y}em)`,
       })
     },
+
+    handleBlur(e) {
+      if (!this.isPreview) return
+      this.$emit('edited', this.item.id, e.target.innerHTML.trim())
+    }
   },
 
   created() {

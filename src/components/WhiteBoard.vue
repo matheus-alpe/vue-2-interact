@@ -3,8 +3,7 @@
     <div
       class="board"
       :style="style"
-      @click="handleClick"
-      @dblclick="handleDoubleClick"
+      @click.stop="addElement"
     >
       <img src="@/assets/background.jpg" alt="bg" :style="imgStyle" />
       <slot />
@@ -53,33 +52,25 @@ export default {
         top: 0,
         left: 0,
         'user-select': 'none',
+        'user-drag': 'none',
+        'cursor': 'text'
       },
     }
   },
 
   methods: {
-    handleClick() {
-      // console.log(this.$refs.board.innerHTML);
-    },
-
-    handleDoubleClick(event) {
-      if (event.target.nodeName === 'IMG') {
-        return this.$emit('addElement', {
-          x: event.x / VIEW_SIZE[this.view],
-          y: event.y / VIEW_SIZE[this.view],
-        })
-      }
-
-      this.deleteElement(event.target)
-    },
 
     /**
-     *
-     * @param {HTMLElement} element
+     * 
+     * @param {MouseEvent} event 
      */
-    deleteElement(element) {
-      if (!element) return
-      element.remove()
+    addElement(event) {
+      if (this.view !== 'full' || event.target.nodeName !== 'IMG') return
+
+      this.$emit('addElement', {
+        x: event.x / VIEW_SIZE[this.view],
+        y: event.y / VIEW_SIZE[this.view],
+      })
     },
   },
 }

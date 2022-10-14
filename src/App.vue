@@ -6,6 +6,7 @@
         :item="item"
         :key="item.id"
         @moveEnd="updatePositionState"
+        @edited="updateMessageState"
       />
     </WhiteBoard>
 
@@ -50,10 +51,10 @@ export default {
       items: [
         {
           id: randomId(),
-          message: 'Teste 1',
+          message: 'Teste asdas<div><br></div><div>&nbsp; &nbsp; asdsad</div><div>1asdasd</div>',
           position: {
-            x: 20,
-            y: 20,
+            x: 27.599999999999973,
+            y: 12.600000000000025,
           },
         },
         {
@@ -77,14 +78,20 @@ export default {
       })
     },
 
-    updatePositionState(itemId, newPosition) {
-      console.log('updatePositionState', itemId, newPosition)
+    updateMessageState(itemId, newMessage) {
+      console.log('updateMessageState', itemId, newMessage)
 
       this.items.forEach((item) => {
-        if (item.id === itemId) {
-          item.position = {
-            ...newPosition,
-          }
+        if (item.id !== itemId) return
+        item.message = newMessage
+      })
+    },
+
+    updatePositionState(itemId, newPosition) {
+      this.items.forEach((item) => {
+        if (item.id !== itemId) return
+        item.position = {
+          ...newPosition,
         }
       })
     },
