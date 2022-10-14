@@ -1,21 +1,24 @@
 <template>
-  <p :class="`text-label-${id}`" contenteditable="true" :style="style">
-    {{ msg }}
+  <p :ref="item.id" :class="item.id" contenteditable="true" :style="style">
+    {{ item.message }}
   </p>
 </template>
 
 <script>
-import interact from "interactjs";
+import interact from 'interactjs'
 
 export default {
-  name: "DraggableText",
+  name: 'DraggableText',
 
   props: {
-    msg: String,
+    item: {
+      type: Object,
+      default: () => {},
+    },
 
-    id: {
-      type: String,
-      required: true,
+    isPreview: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -25,43 +28,67 @@ export default {
 
       style: {
         margin: 0,
-        "font-size": "1em",
-        padding: "5px",
-        color: "#000",
-        "width": "fit-content",
-        position: "absolute",
+        'font-size': '1em',
+        padding: '5px',
+        color: '#000',
+        width: 'fit-content',
+        position: 'absolute',
+        'user-select': 'none',
       },
-    };
+    }
+  },
+
+  watch: {
+    'item.position': {
+      deep: true,
+      handler() {
+        if (!this.isPreview) return
+        this.moveElement(this.$refs[this.item.id], this.item.position)
+      },
+    },
+  },
+
+  methods: {
+    moveElement(element, position) {
+      Object.assign(element.style, {
+        transform: `translate(${position.x}em, ${position.y}em)`,
+      })
+    },
+  },
+
+  created() {
+    this.position = { ...this.item.position }
   },
 
   mounted() {
-    interact(`.text-label-${this.id}`)
-      .draggable({
-        listeners: {
-          move: (event) => {
-            this.position.x += event.dx;
-            this.position.y += event.dy;
+    this.moveElement(this.$refs[this.item.id], this.position)
+    if (this.isPreview) return
 
-            Object.assign(event.target.style, {
-              transform: `translate(${this.position.x}px, ${this.position.y}px)`,
-            });
-          },
+    interact(`.${this.item.id}`).draggable({
+      listeners: {
+        move: (event) => {
+          this.position.x += event.dx / 75
+          this.position.y += event.dy / 75
+
+          this.moveElement(event.target, this.position)
         },
-      })
 
-      .resizable({
-        edges: { top: true, left: true, bottom: true, right: true },
-        listeners: {
-          move: function (event) {
-
-            Object.assign(event.target.style, {
-              width: `${event.rect.width}px`,
-              height: `${event.rect.height}px`,
-            });
-
-          },
+        end: () => {
+          this.$emit('moveEnd', this.item.id, this.position)
         },
-      });
+      },
+    })
+
+    // .resizable({
+    //   edges: { top: false, left: false, bottom: false, right: true },
+    //   listeners: {
+    //     move: (event) => {
+    //       Object.assign(event.target.style, {
+    //         width: `${event.rect.width}px`,
+    //       });
+    //     },
+    //   },
+    // });
   },
-};
+}
 </script>
