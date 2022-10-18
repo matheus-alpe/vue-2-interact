@@ -1,5 +1,13 @@
 <template>
-  <p :ref="item.id" :class="item.id" :contenteditable="!isPreview" :style="style" @blur="handleBlur" v-html="item.message">
+  <p
+    :ref="item.id"
+    :class="item.id"
+    :contenteditable="!isPreview"
+    :style="style"
+    @blur="editHandler"
+    @dblclick.stop.capture="deleteHandler"
+    v-html="item.message"
+  >
   </p>
 </template>
 
@@ -54,10 +62,15 @@ export default {
       })
     },
 
-    handleBlur(e) {
-      if (!this.isPreview) return
-      this.$emit('edited', this.item.id, e.target.innerHTML.trim())
-    }
+    editHandler (event) {
+      if (this.isPreview) return
+      this.$emit('edited', event.target.innerHTML.trim())
+    },
+
+    deleteHandler () {
+      if (this.isPreview) return
+      this.$emit('deleted', this.item.id)
+    },
   },
 
   created() {
@@ -78,7 +91,7 @@ export default {
         },
 
         end: () => {
-          this.$emit('moveEnd', this.item.id, this.position)
+          this.$emit('moveEnd', this.position)
         },
       },
     })

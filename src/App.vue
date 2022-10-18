@@ -1,12 +1,13 @@
 <template>
   <div style="position: relative; min-height: 100vh; padding: 0; margin: 0">
-    <WhiteBoard view="full" @addElement="addElement">
+    <WhiteBoard view="full" @addItem="addItem">
       <DraggableText
         v-for="item in items"
         :item="item"
         :key="item.id"
-        @moveEnd="updatePositionState"
-        @edited="updateMessageState"
+        @moveEnd="(newPosition) => updateItem(item, 'position', newPosition)"
+        @edited="(newMessage) => updateItem(item, 'message', newMessage)"
+        @deleted="removeItem"
       />
     </WhiteBoard>
 
@@ -70,7 +71,9 @@ export default {
   },
 
   methods: {
-    addElement(position) {
+    addItem(position) {
+      console.log('triggered addItem', position)
+
       this.items.push({
         id: randomId(),
         message: 'Insira algum texto',
@@ -78,22 +81,13 @@ export default {
       })
     },
 
-    updateMessageState(itemId, newMessage) {
-      console.log('updateMessageState', itemId, newMessage)
-
-      this.items.forEach((item) => {
-        if (item.id !== itemId) return
-        item.message = newMessage
-      })
+    removeItem(itemId) {
+      this.items = this.items.filter((item) => item.id !== itemId)
     },
 
-    updatePositionState(itemId, newPosition) {
-      this.items.forEach((item) => {
-        if (item.id !== itemId) return
-        item.position = {
-          ...newPosition,
-        }
-      })
+    updateItem(item, key, value) {
+      if (!item.id) return
+      item[key] = value
     },
   },
 }

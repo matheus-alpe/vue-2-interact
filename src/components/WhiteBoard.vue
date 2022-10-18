@@ -3,7 +3,7 @@
     <div
       class="board"
       :style="style"
-      @click.stop="addElement"
+      @dblclick.stop="addItem"
     >
       <img src="@/assets/background.jpg" alt="bg" :style="imgStyle" />
       <slot />
@@ -64,10 +64,10 @@ export default {
      * 
      * @param {MouseEvent} event 
      */
-    addElement(event) {
+    addItem(event) {
       if (this.view !== 'full' || event.target.nodeName !== 'IMG') return
 
-      this.$emit('addElement', {
+      this.$emit('addItem', {
         x: event.x / VIEW_SIZE[this.view],
         y: event.y / VIEW_SIZE[this.view],
       })
