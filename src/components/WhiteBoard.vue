@@ -5,7 +5,7 @@
       :style="style"
       @dblclick.stop="addItem"
     >
-      <img src="@/assets/background.jpg" alt="bg" :style="imgStyle" />
+      <img :src="bgImage || require('@/assets/background.jpg')" alt="bg" :style="imgStyle" />
       <slot />
     </div>
   </div>
@@ -13,9 +13,8 @@
 
 <script>
 const VIEW_SIZE = {
-  full: 76,
-  preview: 32,
-  'small-preview': 11,
+  full: 26,
+  preview: 10,
 }
 
 export default {
@@ -27,6 +26,11 @@ export default {
       required: true,
       validator: (view) => Object.keys(VIEW_SIZE).includes(view),
     },
+
+    bgImage: {
+      type: String,
+      default: () => require('@/assets/background.jpg')
+    }
   },
 
   data() {

@@ -1,6 +1,13 @@
 <template>
   <div style="position: relative; min-height: 100vh; padding: 0; margin: 0">
-    <WhiteBoard view="full" @addItem="addItem">
+    <input
+      @change="previewFiles"
+      type="file"
+      name="image"
+      id="image"
+      accept="image/*"
+    />
+    <WhiteBoard view="full" @addItem="addItem" :bgImage="imgInput">
       <DraggableText
         v-for="item in items"
         :item="item"
@@ -11,23 +18,11 @@
       />
     </WhiteBoard>
 
-    <WhiteBoard view="preview" style="position: absolute; left: 0; bottom: 0">
+    <WhiteBoard view="preview" style="position: absolute; right: 0; bottom: 0; border: 1px solid red;" :bgImage="imgInput">
       <DraggableText
         v-for="item in items"
         :item="{ ...item, id: `preview-${item.id}` }"
         :key="`preview-${item.id}`"
-        :is-preview="true"
-      />
-    </WhiteBoard>
-
-    <WhiteBoard
-      view="small-preview"
-      style="position: absolute; right: 0; bottom: 0"
-    >
-      <DraggableText
-        v-for="item in items"
-        :item="{ ...item, id: `small-preview-${item.id}` }"
-        :key="`small-preview-${item.id}`"
         :is-preview="true"
       />
     </WhiteBoard>
@@ -49,10 +44,12 @@ export default {
 
   data() {
     return {
+      imgInput: null,
       items: [
         {
           id: randomId(),
-          message: 'Teste asdas<div><br></div><div>&nbsp; &nbsp; asdsad</div><div>1asdasd</div>',
+          message:
+            'Teste asdas<div><br></div><div>&nbsp; &nbsp; asdsad</div><div>1asdasd</div>',
           position: {
             x: 27.599999999999973,
             y: 12.600000000000025,
@@ -72,8 +69,6 @@ export default {
 
   methods: {
     addItem(position) {
-      console.log('triggered addItem', position)
-
       this.items.push({
         id: randomId(),
         message: 'Insira algum texto',
@@ -88,6 +83,19 @@ export default {
     updateItem(item, key, value) {
       if (!item.id) return
       item[key] = value
+    },
+
+    previewFiles(event) {
+        const [ file ] = event.target.files
+        if (!file) return
+
+        var reader = new FileReader();
+
+        reader.onload = (event) => {
+          this.imgInput = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
     },
   },
 }
