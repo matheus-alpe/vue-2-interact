@@ -41,8 +41,8 @@ export default {
 
       style: {
         margin: 0,
+        padding: 0,
         'font-size': '1em',
-        padding: '5px',
         color: '#000',
         width: 'fit-content',
         position: 'absolute',

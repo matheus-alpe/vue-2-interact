@@ -29,7 +29,7 @@
       />
     </WhiteBoard>
 
-    <WhiteBoard view="preview" style="position: absolute; right: 0; bottom: 0; border: 1px solid red;" :bgImage="imgInput">
+    <WhiteBoard view="preview" style="position: absolute; right: 0; bottom: 0;" :bgImage="imgInput">
       <DraggableText
         v-for="item in items"
         :item="{ ...item, id: `preview-${item.id}` }"
