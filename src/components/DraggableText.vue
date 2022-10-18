@@ -46,7 +46,6 @@ export default {
         color: '#000',
         width: 'fit-content',
         position: 'absolute',
-        'user-select': 'none',
       },
     }
   },
@@ -70,7 +69,10 @@ export default {
 
     editHandler (event) {
       if (this.isPreview) return
-      this.$emit('edited', event.target.innerHTML.trim())
+      
+      const content = event.target.innerHTML.trim()
+      if (!content) return this.deleteHandler()
+      this.$emit('edited', content)
     },
 
     deleteHandler () {
@@ -86,6 +88,9 @@ export default {
   mounted() {
     this.moveElement(this.$refs[this.item.id], this.position)
     if (this.isPreview) return
+
+    if (!this.item.message) this.$refs[this.item.id].focus()
+
 
     interact(`.${this.item.id}`).draggable({
       listeners: {

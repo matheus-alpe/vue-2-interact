@@ -82,7 +82,7 @@ export default {
     addItem(position) {
       this.items.push({
         id: randomId(),
-        message: 'Insira algum texto',
+        message: '',
         position,
       })
     },
