@@ -13,6 +13,7 @@
 
 <script>
 import interact from 'interactjs'
+import { VIEW_SIZE } from '@/utils'
 
 export default {
   name: 'DraggableText',
@@ -27,6 +28,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    viewEmSize: {
+      type: Number,
+      default: () => VIEW_SIZE.full
+    }
   },
 
   data() {
@@ -84,8 +90,8 @@ export default {
     interact(`.${this.item.id}`).draggable({
       listeners: {
         move: (event) => {
-          this.position.x += event.dx / 75
-          this.position.y += event.dy / 75
+          this.position.x += event.dx / this.viewEmSize
+          this.position.y += event.dy / this.viewEmSize
 
           this.moveElement(event.target, this.position)
         },

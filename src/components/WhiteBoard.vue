@@ -12,10 +12,7 @@
 </template>
 
 <script>
-const VIEW_SIZE = {
-  full: 26,
-  preview: 10,
-}
+import { VIEW_SIZE } from '@/utils'
 
 export default {
   name: 'WhiteBoard',
