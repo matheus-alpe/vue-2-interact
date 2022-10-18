@@ -1,12 +1,23 @@
 <template>
   <div style="position: relative; min-height: 100vh; padding: 0; margin: 0">
-    <input
-      @change="previewFiles"
-      type="file"
-      name="image"
-      id="image"
-      accept="image/*"
-    />
+    <div>
+      <p>Text Instructions:</p>
+      <ol>
+        <li>ADD: Click two times over background image</li>
+        <li>EDIT: Click one time over a text</li>
+        <li>DELETE: Click two times over a text</li>
+      </ol>
+    </div>
+    <div>
+      <label for="image">Change background: </label>
+      <input
+        @change="previewFiles"
+        type="file"
+        name="image"
+        id="image"
+        accept="image/*"
+      />
+    </div>
     <WhiteBoard view="full" @addItem="addItem" :bgImage="imgInput">
       <DraggableText
         v-for="item in items"
