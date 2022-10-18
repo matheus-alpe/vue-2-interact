@@ -68,9 +68,10 @@ export default {
     addItem(event) {
       if (this.view !== 'full' || event.target.nodeName !== 'IMG') return
 
+
       this.$emit('addItem', {
-        x: event.x / VIEW_SIZE[this.view],
-        y: event.y / VIEW_SIZE[this.view],
+        x: (event.layerX - VIEW_SIZE[this.view]) / VIEW_SIZE[this.view],
+        y: (event.layerY - VIEW_SIZE[this.view]) / VIEW_SIZE[this.view],
       })
     },
   },
